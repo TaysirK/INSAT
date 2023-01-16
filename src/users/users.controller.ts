@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete , UseGuards} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
+import { LoginCredsDto } from './dto/login-creds.dto';
+import { JwtAuthGuard } from './Guards/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -11,12 +13,21 @@ export class UsersController {
     ) {}
 
   //register
-  @Post()
+  @Post('register')
   async register(
     @Body() userData: CreateUserDto
   ):Promise<Partial<UserEntity>> {
     return await this.usersService.register(userData)
   }
+
+    //Login
+    @Post('login')
+    async login(
+      @Body() Credential: LoginCredsDto
+    ) {
+      return await this.usersService.login(Credential)
+    }
+
 
   //GET all users
   @Get()
@@ -31,6 +42,7 @@ export class UsersController {
 
   //GET a user with id 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   async getUser(
     @Param('id') id: string): Promise<UserEntity>
    {
@@ -39,6 +51,7 @@ export class UsersController {
 
   //Update A user
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   async updateUser(
     @Body() user: UpdateUserDto,
     @Param('id') id: string
@@ -48,6 +61,7 @@ export class UsersController {
 
   //DELETE A user
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   async deleteUser(
     @Param('id') id: string
   ){
@@ -55,6 +69,7 @@ export class UsersController {
   }
   //RESTOORE A USER 
   @Get('restore/:id')
+  @UseGuards(JwtAuthGuard)
   async restoreUser(
     @Param('id') id: string
   ){

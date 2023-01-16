@@ -30,6 +30,9 @@ export class CreateUserDto {
     @IsNotEmpty({message:'Password should not be empty!'})
     password:string;
 
+    @IsString()
+    salt:string;
+
 
     @IsNotEmpty({message:'Filiere should not be empty!'})
     @IsIn(['MPI', 'CBA', 'RT', 'GL', 'IIA', 'IMI'])

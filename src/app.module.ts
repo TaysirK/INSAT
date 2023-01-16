@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config' ; 
 import { TypeOrmModule} from '@nestjs/typeorm' ; 
+import { SuperUsersModule } from './super-users/super-users.module';
 import * as dotenv from 'dotenv';
 
 dotenv.config()
@@ -22,7 +23,8 @@ dotenv.config()
       entities: ["dist/**/*.entity{.ts,.js}"],
       synchronize: true,
 
-    })
+    }),
+    SuperUsersModule
   ],
   controllers: [AppController],
   providers: [AppService],

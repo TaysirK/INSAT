@@ -6,6 +6,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginCredsDto } from './dto/login-creds.dto';
 import { UserEntity } from './entities/user.entity';
+import {JwtService} from '@nestjs/jwt'
+
 import * as bcrypt from 'bcrypt'
 
 
@@ -13,7 +15,8 @@ import * as bcrypt from 'bcrypt'
 export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
-    private userRepository: Repository<UserEntity>
+    private userRepository: Repository<UserEntity>,
+    private jwtService: JwtService
   ){
   }
 
@@ -81,8 +84,30 @@ export class UsersService {
   }
 
   //LOGIN
-  login(credentials: LoginCredsDto){
-    
+  async login(credentials: LoginCredsDto){
+      const {email,password} = credentials; 
+      const user = await this.userRepository.createQueryBuilder("user")
+        .where("user.email= :email", { email }).getOne();
+
+      console.log(user);
+      if (!user) {
+          throw new NotFoundException('user not found');
+      }
+      const hashedPassword= await bcrypt.hash(password, user.salt);
+      if (hashedPassword==user.password){
+        const payload={
+          id: user.id
+        };
+
+        const jwt= await this.jwtService.sign(payload);
+        return {
+          "access_token": jwt
+        };
+      }else{
+        throw new NotFoundException('email or password not correct');
+      }
+
+
   }
 
 
