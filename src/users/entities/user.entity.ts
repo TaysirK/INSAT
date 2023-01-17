@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity,OneToMany, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { timestampsEntity } from "../Generics/timestamps.entity";
+import {CommentEntity} from '../../comments/entities/comment.entity'
 
 
 @Entity('user')
@@ -30,5 +31,18 @@ export class UserEntity extends timestampsEntity{
 
     @Column({ type: "int", width: 1 })
     niveau:number;
+    
+    @Column()
+    role:string;
+
+    @OneToMany(
+        (Type) => CommentEntity,
+        (comment: CommentEntity) => comment.user,
+        {
+            /*on charge l'entité avec ses relation*/
+            //eager :true 
+        } 
+      )
+      comments: CommentEntity [];
 
 }

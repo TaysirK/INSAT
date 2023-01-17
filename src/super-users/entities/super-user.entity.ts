@@ -1,10 +1,11 @@
 
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { OneToOne, Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { timestampsEntity } from "../Generics/timestamps.entity";
+import { AvisEntity } from '../../avis/entities/avi.entity';
 
 
-@Entity('superUser')
-export class SuperUser extends timestampsEntity {
+@Entity('superuser')
+export class SuperUserEntity extends timestampsEntity {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
@@ -28,6 +29,15 @@ export class SuperUser extends timestampsEntity {
 
     @Column()
     role:string;
+
+    @OneToOne(
+        (Type) => AvisEntity,
+        (avis: AvisEntity) => avis.SuperUser,
+        {
+
+        } 
+      )
+      avis: AvisEntity ;
 
 
 }

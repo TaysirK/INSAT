@@ -44,6 +44,8 @@ export class CreateUserDto {
     @Max(5)
     niveau:number;
 
+    role: string = 'student';
+
 
 }
 

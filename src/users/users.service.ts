@@ -101,7 +101,8 @@ export class UsersService {
 
         const jwt= await this.jwtService.sign(payload);
         return {
-          "access_token": jwt
+          "access_token": jwt,
+          "status" : 1
         };
       }else{
         throw new NotFoundException('email or password not correct');

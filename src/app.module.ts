@@ -5,6 +5,8 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config' ; 
 import { TypeOrmModule} from '@nestjs/typeorm' ; 
 import { SuperUsersModule } from './super-users/super-users.module';
+import { AvisModule } from './avis/avis.module';
+import { CommentsModule } from './comments/comments.module';
 import * as dotenv from 'dotenv';
 
 dotenv.config()
@@ -24,7 +26,9 @@ dotenv.config()
       synchronize: true,
 
     }),
-    SuperUsersModule
+    SuperUsersModule,
+    AvisModule,
+    CommentsModule
   ],
   controllers: [AppController],
   providers: [AppService],
