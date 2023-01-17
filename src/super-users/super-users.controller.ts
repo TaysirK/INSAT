@@ -34,7 +34,7 @@ export class SuperUsersController {
       @Post('cours')
       @UseInterceptors(FileInterceptor('file', {
         storage: diskStorage({
-          destination: './uploads/affichage',
+          destination: './uploads/cours',
           filename: (req, file, cb) => {
             // Generating a 32 random chars long string
             const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('')
@@ -51,7 +51,7 @@ export class SuperUsersController {
       @Post('emploie')
       @UseInterceptors(FileInterceptor('file', {
         storage: diskStorage({
-          destination: './uploads/affichage',
+          destination: './uploads/emploie',
           filename: (req, file, cb) => {
             // Generating a 32 random chars long string
             const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('')
@@ -65,7 +65,7 @@ export class SuperUsersController {
       }
 
 
-      
+
       //Login
       @Post('login')
       async login(
