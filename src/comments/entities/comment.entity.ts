@@ -1,4 +1,4 @@
-import {ManyToOne, OneToOne,Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {ManyToOne, OneToOne,Entity, Column, PrimaryGeneratedColumn, JoinColumn } from 'typeorm';
 import { timestampsEntity } from "../Generics/timestamps.entity";
 import { UserEntity } from '../../users/entities/user.entity';
 import { AvisEntity } from '../../avis/entities/avi.entity';
@@ -15,6 +15,7 @@ export class CommentEntity extends timestampsEntity {
         (avis: AvisEntity) => avis.comments,
         {} 
       )
+      @JoinColumn()
       avis: AvisEntity;
 
     @OneToOne(
@@ -26,5 +27,6 @@ export class CommentEntity extends timestampsEntity {
           
         } 
       )
+      @JoinColumn()
       user: UserEntity;
 }
