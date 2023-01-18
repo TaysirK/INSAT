@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable ,BadRequestException} from '@nestjs/common';
 import { ConflictException, NotFoundException } from '@nestjs/common/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository,createQueryBuilder } from 'typeorm';
@@ -7,9 +7,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginCredsDto } from './dto/login-creds.dto';
 import { UserEntity } from './entities/user.entity';
 import {JwtService} from '@nestjs/jwt'
-
+import { validate, validateOrReject } from 'class-validator';
 import * as bcrypt from 'bcrypt'
-
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class UsersService {
@@ -61,9 +61,19 @@ export class UsersService {
   }
 
   //Register
-  async register(userData: CreateUserDto ): Promise<Partial<UserEntity>>{
+  async register(userData: CreateUserDto ): Promise<Partial<UserEntity>> {
+    // Validate the DTO instance
+    const userDataDto = plainToClass(CreateUserDto, userData);
+    //await validateOrReject(userDataDto);
+    //console.log(userData); 
+    const errors = await validate(userDataDto);
+    //console.log(errors)
+
+    if (errors.length > 0) {
+      throw new BadRequestException(errors);
+  }
     const user = this.userRepository.create({
-      ...userData
+      ...userDataDto
     });
     user.salt= await bcrypt.genSalt();
     user.password= await bcrypt.hash(user.password, user.salt);
@@ -80,8 +90,7 @@ export class UsersService {
       filiere: user.filiere,
       niveau: user.niveau
     };
-    
-  }
+}
 
   //LOGIN
   async login(credentials: LoginCredsDto){

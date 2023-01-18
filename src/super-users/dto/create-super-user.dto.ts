@@ -31,8 +31,8 @@ export class CreateSuperUserDto {
     @IsNotEmpty({message:'Password should not be empty!'})
     password:string;
 
-    @IsString()
-    salt:string;
+    //@IsString()
+    //salt:string;
 
 
 

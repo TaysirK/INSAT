@@ -12,17 +12,18 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private configService : ConfigService, 
     @InjectRepository(SuperUserEntity)
-    private userRepository: Repository<SuperUserEntity>
+    private superUserRepository: Repository<SuperUserEntity>
   ) {
     super({
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
         ignoreExpiration: false,
-        secretOrKey: configService.get('SECRET'),
+        secretOrKey: 'TestSecretKey' //configService.get('SECRET'),
       });
   }
 
   async validate(payload: PayloadInterface) {
-    const user = await this.userRepository.findOne({ where: { id: payload.id } });
+    const user = await this.superUserRepository.findOne({ where: { id: payload.id } });
+    console.log(user);
     if (user){
         const {password,salt,...result} = user;
         return result;

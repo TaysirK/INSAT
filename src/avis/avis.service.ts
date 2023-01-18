@@ -4,22 +4,50 @@ import { Repository,createQueryBuilder } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import {AvisEntity} from './entities/avi.entity'
 import { ConflictException, NotFoundException } from '@nestjs/common/exceptions';
+import { SuperUserEntity } from 'src/super-users/entities/super-user.entity';
 
 @Injectable()
 export class AvisService {
   constructor(
     @InjectRepository(AvisEntity)
-    private avisRepository: Repository<AvisEntity>
+    private avisRepository: Repository<AvisEntity>,
+    @InjectRepository(SuperUserEntity)
+    private superUserRepository: Repository<SuperUserEntity>
   ) {}
 
 
-    create(AvisDto:CreateAviDto): Promise<AvisEntity> {
-      return this.avisRepository.save(AvisDto);
+   async create(avis:CreateAviDto,superUser:string ) {
+    const user = await this.superUserRepository.findOne({where: {id: superUser}});
+    console.log(user);
+    if (!user) {
+      throw new NotFoundException('SuperUser not found');
+    }else{
+      try {
+          const Avis = await this.avisRepository.create({
+          Description: avis.Description,
+          content: avis.content,
+          SuperUser: { id: user.id }
+        });
+        console.log(Avis);
+          return this.avisRepository.save(Avis);
+          
+        } catch{
+          throw new ConflictException('Avis can not be created');
+        }
     }
+   }
 
-    findAll(): Promise<AvisEntity[]> {
-      return this.avisRepository.find();
+    async getAll() {
+      try {
+        const avis = await this.avisRepository.find();
+        console.log(avis);
+        return await this.avisRepository.find();
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
     }
+/*
     async findOne(id): Promise<AvisEntity> {
       const Entity = await this.avisRepository.findOne({where: {id}});
       if (! Entity) {
@@ -47,5 +75,5 @@ export class AvisService {
         .where('avis.id = :id', { id })
         .getOne();
     }
-
+*/
 }

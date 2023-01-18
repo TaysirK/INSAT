@@ -1,20 +1,22 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { AvisService } from './avis.service';
 import { CreateAviDto } from './dto/create-avi.dto';
+import {AvisEntity} from './entities/avi.entity'
 
 @Controller('avis')
 export class AvisController {
   constructor(private readonly avisService: AvisService) {}
 
   @Post()
-  create(@Body() avis: CreateAviDto) {
-    return this.avisService.create(avis);
+  async create(@Body() avis: CreateAviDto,superUser :string) {
+    return this.avisService.create(avis,superUser);
   }
 
   @Get()
-  findAll() {
-    return this.avisService.findAll();
+  async findAll() {
+    return await this.avisService.getAll();
   }
+/*
   @Get('/withComment/:id')
   findOneWithComments() {
     return this.avisService.findWithComments(':id');
@@ -31,5 +33,5 @@ export class AvisController {
   remove(@Param('id') id: string) {
     return this.avisService.remove(id);
   }
-
+*/
 }

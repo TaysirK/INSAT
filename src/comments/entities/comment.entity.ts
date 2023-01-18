@@ -1,4 +1,4 @@
-import {ManyToOne, Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {ManyToOne, OneToOne,Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { timestampsEntity } from "../Generics/timestamps.entity";
 import { UserEntity } from '../../users/entities/user.entity';
 import { AvisEntity } from '../../avis/entities/avi.entity';
@@ -10,14 +10,14 @@ export class CommentEntity extends timestampsEntity {
     @Column()
     content: string;
 
-    @ManyToOne(
+    @OneToOne(
         (Type) => AvisEntity,
         (avis: AvisEntity) => avis.comments,
         {} 
       )
       avis: AvisEntity;
 
-    @ManyToOne(
+    @OneToOne(
         (Type) => UserEntity,
         (user: UserEntity) => user.comments,
         {

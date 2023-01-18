@@ -1,4 +1,4 @@
-import { OneToMany,Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
+import { OneToMany,Entity, Column, PrimaryGeneratedColumn, OneToOne, ManyToOne, JoinColumn } from 'typeorm';
 import { timestampsEntity } from "../Generics/timestamps.entity";
 import { SuperUserEntity } from '../../super-users/entities/super-user.entity';
 import {CommentEntity} from '../../comments/entities/comment.entity'
@@ -18,20 +18,14 @@ export class AvisEntity extends timestampsEntity{
         {
             /*on charge l'entité avec ses relation*/
             eager :true , 
-            /*on supprime l'entité avec ses relation*/
-            onDelete : 'CASCADE'
+            
 
         } 
       )
-      comments: CommentEntity [];
-    @OneToOne(
-        (Type) => SuperUserEntity,
-        (SuperUser: SuperUserEntity) => SuperUser.avis,
-        {
-            eager :true , 
-            
-        } 
-      )
-      SuperUser: SuperUserEntity [];
-    
+      comments: CommentEntity[];
+
+      @ManyToOne(type => SuperUserEntity, superUser => superUser.avis)
+      SuperUser: Partial<SuperUserEntity>;
+
+
 }

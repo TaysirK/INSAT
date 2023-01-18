@@ -1,5 +1,5 @@
 
-import { OneToOne, Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { OneToOne, Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { timestampsEntity } from "../Generics/timestamps.entity";
 import { AvisEntity } from '../../avis/entities/avi.entity';
 
@@ -30,14 +30,8 @@ export class SuperUserEntity extends timestampsEntity {
     @Column()
     role:string;
 
-    @OneToOne(
-        (Type) => AvisEntity,
-        (avis: AvisEntity) => avis.SuperUser,
-        {
-
-        } 
-      )
-      avis: AvisEntity ;
+    @OneToMany(type => AvisEntity, avis =>  avis.SuperUser)
+    avis: AvisEntity[];
 
 
 }

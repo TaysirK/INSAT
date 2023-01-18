@@ -7,10 +7,11 @@ import { PassportModule } from '@nestjs/passport';
 import {JwtModule} from '@nestjs/jwt'
 import * as dotenv from 'dotenv';
 import { JwtStrategy } from './strategy/passport-jwt.strategy';
+import { AvisEntity } from 'src/avis/entities/avi.entity';
 
 @Module({
   imports:[
-    TypeOrmModule.forFeature([SuperUserEntity]),
+    TypeOrmModule.forFeature([SuperUserEntity]),TypeOrmModule.forFeature([AvisEntity]),
     PassportModule.register({
       defaultStrategy: 'jwt'
     }),

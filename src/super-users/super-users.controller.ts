@@ -15,7 +15,8 @@ export class SuperUsersController {
   constructor(private readonly superUsersService: SuperUsersService) {}
 
       //upload affichage
-      @Post('Affichage')
+      @Post('affichage')
+      //@UseGuards(JwtAuthGuard)
       @UseInterceptors(FileInterceptor('file', {
         storage: diskStorage({
           destination: './uploads/affichage',
@@ -42,6 +43,7 @@ export class SuperUsersController {
           },
         }),
       }))
+      @UseGuards(JwtAuthGuard)
       async uploadCours(@UploadedFile() file) {
         console.log(file);
         return { status: 'ok' };
@@ -49,6 +51,7 @@ export class SuperUsersController {
 
       //upload Emploie
       @Post('emploie')
+      @UseGuards(JwtAuthGuard)
       @UseInterceptors(FileInterceptor('file', {
         storage: diskStorage({
           destination: './uploads/emploie',
@@ -64,15 +67,22 @@ export class SuperUsersController {
         return { status: 'ok' };
       }
 
+        //register
+      @Post('register')
+      async register(
+        @Body() userData: CreateSuperUserDto
+      ):Promise<Partial<SuperUserEntity>> {
+        return await this.superUsersService.register(userData)
+      }
 
-
-      //Login
+     //Login
       @Post('login')
       async login(
         @Body() Credential: LoginCredsDto
       ) {
         return await this.superUsersService.login(Credential)
       }
+
         //GET all users
       @Get()
       async getAllusers(): Promise<SuperUserEntity[]>{
@@ -80,15 +90,15 @@ export class SuperUsersController {
       }
         //GET a user with id 
       @Get(':id')
-      @UseGuards(JwtAuthGuard)
+      //@UseGuards(JwtAuthGuard)
       async getUser(
         @Param('id') id: string): Promise<SuperUserEntity>
       {
         return await this.superUsersService.getUser(id) ; 
       }
         //Update A user
-      @Patch(':id')
-      @UseGuards(JwtAuthGuard)
+      @Patch('/:id')
+      //@UseGuards(JwtAuthGuard)
       async updateUser(
         @Body() user: UpdateSuperUserDto,
         @Param('id') id: string
