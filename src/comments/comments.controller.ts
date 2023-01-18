@@ -7,15 +7,18 @@ export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
   @Post()
-  create(@Body() comment: CreateCommentDto) {
-    return this.commentsService.create(comment);
+  create(@Body() comment: CreateCommentDto,
+                  user:string,
+                  avis:string
+  ) {
+    return this.commentsService.create(comment,user, avis);
   }
 
   @Get()
   findAll() {
-    return this.commentsService.findAll();
+    return this.commentsService.getAll();
   }
-
+/*
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.commentsService.findOne(id);
@@ -29,5 +32,5 @@ export class CommentsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.commentsService.remove(id);
-  }
+  }*/
 }

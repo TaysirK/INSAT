@@ -16,7 +16,7 @@ export class CommentEntity extends timestampsEntity {
         {} 
       )
       @JoinColumn()
-      avis: AvisEntity;
+      avis: Partial<AvisEntity>;
 
     @OneToOne(
         (Type) => UserEntity,
@@ -28,5 +28,5 @@ export class CommentEntity extends timestampsEntity {
         } 
       )
       @JoinColumn()
-      user: UserEntity;
+      user: Partial<UserEntity>;
 }
