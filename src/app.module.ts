@@ -7,6 +7,9 @@ import { TypeOrmModule} from '@nestjs/typeorm' ;
 import { SuperUsersModule } from './super-users/super-users.module';
 import { AvisModule } from './avis/avis.module';
 import { CommentsModule } from './comments/comments.module';
+import { EmploiesModule } from './emploies/emploies.module';
+import { AffichagesModule } from './affichages/affichages.module';
+import { CoursesModule } from './courses/courses.module';
 import * as dotenv from 'dotenv';
 
 dotenv.config()
@@ -28,7 +31,10 @@ dotenv.config()
     }),
     SuperUsersModule,
     AvisModule,
-    CommentsModule
+    CommentsModule,
+    EmploiesModule,
+    AffichagesModule,
+    CoursesModule
   ],
   controllers: [AppController],
   providers: [AppService],
