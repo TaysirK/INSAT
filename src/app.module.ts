@@ -10,6 +10,7 @@ import { CommentsModule } from './comments/comments.module';
 import { EmploiesModule } from './emploies/emploies.module';
 import { AffichagesModule } from './affichages/affichages.module';
 import { CoursesModule } from './courses/courses.module';
+import { ContactsModule } from './contacts/contacts.module';
 import * as dotenv from 'dotenv';
 
 dotenv.config()
@@ -34,7 +35,8 @@ dotenv.config()
     CommentsModule,
     EmploiesModule,
     AffichagesModule,
-    CoursesModule
+    CoursesModule,
+    ContactsModule
   ],
   controllers: [AppController],
   providers: [AppService],
