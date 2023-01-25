@@ -13,11 +13,14 @@ export class AffichagesService {
   ){
 
   }
+ 
   async findaffichage(filiere:string,niveau:number){
-    const affichages= await this.affichageRepository.createQueryBuilder("affichage")
-    .where("affichage.filiere= :filiere", {filiere})
-    .andWhere("affichage.niveau= :niveau",{niveau})
-    .getMany();
+    const affichages= await this.affichageRepository.find({ 
+      where: { 
+        filiere: filiere, niveau:niveau
+      } 
+    });
+    
     return affichages;
   }
 

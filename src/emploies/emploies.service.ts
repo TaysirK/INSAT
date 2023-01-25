@@ -13,10 +13,12 @@ export class EmploiesService {
   ){}
 
   async findEmploie(filiere:string,niveau:number){
-    const emploies= await this.emploieRepository.createQueryBuilder("emploie")
-    .where("emploie.filiere= :filiere", {filiere})
-    .andWhere("emploie.niveau= :niveau",{niveau})
-    .getMany();
+    const emploies= await this.emploieRepository.find({ 
+      where: { 
+        filiere: filiere, niveau:niveau
+      } 
+    });
+    
     return emploies;
   }
 }

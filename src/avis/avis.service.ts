@@ -47,6 +47,19 @@ export class AvisService {
         throw error;
       }
     }
+
+    async findAvisWithCommentsAndUsers(avisId: string) {
+      const avis = await this.avisRepository
+        .createQueryBuilder('avis')
+        .leftJoinAndSelect('avis.comments', 'comments')
+        .leftJoinAndSelect('comments.user', 'user')
+        .leftJoinAndSelect('avis.superuser', 'superuser')
+        .where('avis.id = :id', { id: avisId })
+        .getOne();
+    
+      return avis;
+    }
+
 /*
     async findOne(id): Promise<AvisEntity> {
       const Entity = await this.avisRepository.findOne({where: {id}});

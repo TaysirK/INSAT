@@ -18,6 +18,16 @@ export class CommentsController {
   findAll() {
     return this.commentsService.getAll();
   }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.commentsService.findOne(id);
+  }
+
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.commentsService.remove(id);
+  }
 /*
   @Get(':id')
   findOne(@Param('id') id: string) {

@@ -16,6 +16,11 @@ export class AvisController {
   async findAll() {
     return await this.avisService.getAll();
   }
+
+  @Get('/withComment/')
+  async findOneWithComments(@Param('id') id: string) {
+    return await this.avisService.findAvisWithCommentsAndUsers(id);
+  }
 /*
   @Get('/withComment/:id')
   findOneWithComments() {

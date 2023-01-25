@@ -51,6 +51,22 @@ export class CommentsService {
     }
   }
 
+  async findOne(id): Promise<CommentEntity> {
+    
+    const Entity = await this.commentRepository.findOne({
+      where: {
+        id:id}
+      });
+    if (! Entity) {
+      throw new NotFoundException();
+    }
+    return Entity;
+  }
+  async remove(id) {
+    return await this.commentRepository.softDelete(id);
+
+  }
+
 /*
   findAll(): Promise<CommentEntity[]> {
     return this.commentRepository.find();

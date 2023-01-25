@@ -14,11 +14,13 @@ export class CoursesService {
   }
 
   async findCours(filiere:string,niveau:number){
-    const courses= await this.coursRepository.createQueryBuilder("cours")
-    .where("cours.filiere= :filiere", {filiere})
-    .andWhere("cours.niveau= :niveau",{niveau})
-    .getMany();
-    return courses;
-  }
+    const courses= await this.coursRepository.find({ 
+     where: { 
+       filiere: filiere, niveau:niveau
+     } 
+   });
+   
+   return courses;
+ }
   
 }
